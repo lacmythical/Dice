@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>3 Xúc Xắc Ngẫu Nhiên</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .dice-container {
+      text-align: center;
+    }
+
+    .dice {
+      font-size: 90px;
+      margin: 0 15px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dice-container">
+    <h1>🎲 Tung Xúc Xắc 🎲</h1>
+    <div id="dice"></div>
+  </div>
+
+  <script>
+    const dices = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+
+    function randomDice() {
+      return dices[Math.floor(Math.random() * 6)];
+    }
+
+    document.getElementById("dice").innerHTML =
+      `<span class="dice">${randomDice()}</span>
+       <span class="dice">${randomDice()}</span>
+       <span class="dice">${randomDice()}</span>`;
+  </script>
+
+</body>
+</html>
