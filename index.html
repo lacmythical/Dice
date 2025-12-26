@@ -2,22 +2,26 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>3 Xúc Xắc</title>
+  <title>Xúc xắc nặn</title>
 
   <style>
     body {
       margin: 0;
       height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       background: #111;
       color: white;
       font-family: Arial, sans-serif;
+      overflow: hidden;
     }
 
     .container {
-      text-align: center;
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
     }
 
     .dice {
@@ -25,16 +29,38 @@
       margin: 0 15px;
     }
 
-    .result {
-      margin-top: 25px;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
     .sum {
       margin-top: 10px;
       font-size: 22px;
       color: #aaa;
+    }
+
+    .result {
+      margin-top: 15px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    /* TẤM CHE */
+    .cover {
+      position: absolute;
+      width: 200px;
+      height: 120px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 2px dashed #666;
+      border-radius: 10px;
+      cursor: grab;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .cover:active {
+      cursor: grabbing;
     }
   </style>
 </head>
@@ -46,7 +72,10 @@
     <div class="result" id="result"></div>
   </div>
 
+  <div class="cover" id="cover">KÉO ĐỂ NẶN</div>
+
   <script>
+    // ==== XÚC XẮC ====
     const diceEmoji = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
 
     function roll() {
@@ -56,7 +85,6 @@
     const d1 = roll();
     const d2 = roll();
     const d3 = roll();
-
     const total = d1 + d2 + d3;
 
     document.getElementById("dice").innerHTML = `
@@ -68,14 +96,48 @@
     document.getElementById("sum").textContent = "Tổng: " + total;
 
     const resultEl = document.getElementById("result");
-
     if (total < 10) {
       resultEl.textContent = "HDPE";
     } else if (total > 10) {
       resultEl.textContent = "Mlinh đẹp trai vcl";
     } else {
-      resultEl.textContent = "Hòa (bằng 10)";
+      resultEl.textContent = "Hòa (10)";
     }
+
+    // ==== KÉO TẤM CHE ====
+    const cover = document.getElementById("cover");
+    let dragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    function startDrag(e) {
+      dragging = true;
+      const rect = cover.getBoundingClientRect();
+      const x = e.touches ? e.touches[0].clientX : e.clientX;
+      const y = e.touches ? e.touches[0].clientY : e.clientY;
+      offsetX = x - rect.left;
+      offsetY = y - rect.top;
+    }
+
+    function drag(e) {
+      if (!dragging) return;
+      const x = e.touches ? e.touches[0].clientX : e.clientX;
+      const y = e.touches ? e.touches[0].clientY : e.clientY;
+      cover.style.left = (x - offsetX) + "px";
+      cover.style.top = (y - offsetY) + "px";
+    }
+
+    function stopDrag() {
+      dragging = false;
+    }
+
+    cover.addEventListener("mousedown", startDrag);
+    cover.addEventListener("mousemove", drag);
+    document.addEventListener("mouseup", stopDrag);
+
+    cover.addEventListener("touchstart", startDrag);
+    cover.addEventListener("touchmove", drag);
+    document.addEventListener("touchend", stopDrag);
   </script>
 
 </body>
