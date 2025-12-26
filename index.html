@@ -41,22 +41,24 @@
       font-weight: bold;
     }
 
-    /* TẤM CHE */
+    /* ===== TẤM CHE ===== */
     .cover {
       position: absolute;
-      width: 200px;
-      height: 120px;
-      background: rgba(0, 0, 0, 0.85);
-      border: 2px dashed #666;
-      border-radius: 10px;
+      width: 420px;          /* che kín 3 xúc xắc */
+      height: 180px;
+      background: rgba(0, 0, 0, 0.97); /* gần như không xuyên */
+      border: 3px solid #000;
+      border-radius: 14px;
       cursor: grab;
       z-index: 10;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #aaa;
+      color: #777;
+      font-weight: bold;
       user-select: none;
       touch-action: none;
+      box-shadow: 0 0 30px rgba(0,0,0,0.9);
     }
 
     .cover:active {
@@ -72,6 +74,7 @@
     <div class="result" id="result"></div>
   </div>
 
+  <!-- TẤM CHE -->
   <div class="cover" id="cover">KÉO ĐỂ NẶN</div>
 
   <script>
@@ -104,14 +107,22 @@
       resultEl.textContent = "Hòa (10)";
     }
 
-    // ==== KÉO TẤM CHE ====
+    // ==== ĐẶT TẤM CHE CHE KÍN BAN ĐẦU ====
     const cover = document.getElementById("cover");
+
+    // căn giữa màn hình (đè xúc xắc)
+    cover.style.left = "50%";
+    cover.style.top = "50%";
+    cover.style.transform = "translate(-50%, -65%)";
+
+    // ==== KÉO CHE ====
     let dragging = false;
     let offsetX = 0;
     let offsetY = 0;
 
     function startDrag(e) {
       dragging = true;
+      cover.style.transform = "none";
       const rect = cover.getBoundingClientRect();
       const x = e.touches ? e.touches[0].clientX : e.clientX;
       const y = e.touches ? e.touches[0].clientY : e.clientY;
