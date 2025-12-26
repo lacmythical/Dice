@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>3 Xúc Xắc Ngẫu Nhiên</title>
+  <title>3 Xúc Xắc</title>
 
   <style>
     body {
@@ -16,7 +16,7 @@
       font-family: Arial, sans-serif;
     }
 
-    .dice-container {
+    .container {
       text-align: center;
     }
 
@@ -25,29 +25,57 @@
       margin: 0 15px;
     }
 
-    h1 {
-      margin-bottom: 30px;
+    .result {
+      margin-top: 25px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .sum {
+      margin-top: 10px;
+      font-size: 22px;
+      color: #aaa;
     }
   </style>
 </head>
 <body>
 
-  <div class="dice-container">
-    <h1>🎲 Tung Xúc Xắc 🎲</h1>
+  <div class="container">
     <div id="dice"></div>
+    <div class="sum" id="sum"></div>
+    <div class="result" id="result"></div>
   </div>
 
   <script>
-    const dices = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+    const diceEmoji = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
 
-    function randomDice() {
-      return dices[Math.floor(Math.random() * 6)];
+    function roll() {
+      return Math.floor(Math.random() * 6) + 1;
     }
 
-    document.getElementById("dice").innerHTML =
-      `<span class="dice">${randomDice()}</span>
-       <span class="dice">${randomDice()}</span>
-       <span class="dice">${randomDice()}</span>`;
+    const d1 = roll();
+    const d2 = roll();
+    const d3 = roll();
+
+    const total = d1 + d2 + d3;
+
+    document.getElementById("dice").innerHTML = `
+      <span class="dice">${diceEmoji[d1 - 1]}</span>
+      <span class="dice">${diceEmoji[d2 - 1]}</span>
+      <span class="dice">${diceEmoji[d3 - 1]}</span>
+    `;
+
+    document.getElementById("sum").textContent = "Tổng: " + total;
+
+    const resultEl = document.getElementById("result");
+
+    if (total < 10) {
+      resultEl.textContent = "HDPE";
+    } else if (total > 10) {
+      resultEl.textContent = "Mlinh đẹp trai vcl";
+    } else {
+      resultEl.textContent = "Hòa (bằng 10)";
+    }
   </script>
 
 </body>
